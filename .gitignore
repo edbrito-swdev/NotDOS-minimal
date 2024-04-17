@@ -1,0 +1,4 @@
+main.exe
+zig-out
+zig-cache
+.DS_store
