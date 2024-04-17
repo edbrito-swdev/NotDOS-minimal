@@ -11,8 +11,14 @@ pub fn main() anyerror!void {
     const windowWidth = if (monitorWidth > targetWidth) monitorWidth else targetWidth;
     const windowHeight = if (monitorHeight > targetHeight) monitorHeight else targetHeight;
 
+    raylib.initAudioDevice();
+    defer raylib.closeAudioDevice();
+
     raylib.initWindow(windowWidth, windowHeight, "My Game");
     defer raylib.closeWindow();
+
+    var coin = raylib.loadSound("assets/sfx/coin.wav");
+    defer raylib.unloadSound(coin);
 
     var target = raylib.RenderTexture.init(targetWidth, targetHeight);
     defer target.unload();
@@ -21,6 +27,9 @@ pub fn main() anyerror!void {
         // Handle input
         if (raylib.isKeyPressed(raylib.KeyboardKey.key_f)) {
             raylib.toggleFullscreen();
+        }
+        if (raylib.isKeyPressed(raylib.KeyboardKey.key_s)) {
+            raylib.playSound(coin);
         }
 
         // Update
